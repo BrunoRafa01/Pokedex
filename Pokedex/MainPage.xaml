@@ -1,0 +1,73 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Pokedex.MainPage"
+             Title="Pokédex"
+             BackgroundColor="#ECEFF1">
+
+    <Grid RowDefinitions="Auto, *" Padding="16" RowSpacing="16">
+
+        <Border Grid.Row="0" StrokeShape="RoundRectangle 12" Stroke="#E0E0E0" BackgroundColor="White" Padding="16">
+            <VerticalStackLayout Spacing="10">
+                <Label Text="Cadastrar Pokémon" FontSize="20" FontAttributes="Bold" TextColor="#D32F2F" />
+
+                <Entry x:Name="txtNome" Placeholder="Nome do Pokémon (ex: Gengar)" TextColor="#212121" PlaceholderColor="#9E9E9E" />
+                <Entry x:Name="txtTipo" Placeholder="Tipo (ex: Fantasma / Venenoso)" TextColor="#212121" PlaceholderColor="#9E9E9E" />
+                <Entry x:Name="txtImagem" Placeholder="URL da Imagem (opcional)" TextColor="#212121" PlaceholderColor="#9E9E9E" />
+                <Entry x:Name="txtPoderes" Placeholder="Poderes separados por vírgula (ex: Bola Sombria, Hipnose)" TextColor="#212121" PlaceholderColor="#9E9E9E" />
+
+                <Button Text="Gravar no Banco" 
+                        BackgroundColor="#D32F2F" 
+                        TextColor="White" 
+                        FontAttributes="Bold"
+                        CornerRadius="8"
+                        Clicked="OnSalvarClicked" />
+            </VerticalStackLayout>
+        </Border>
+
+        <CollectionView Grid.Row="1" x:Name="cvPokemons">
+            <CollectionView.EmptyView>
+                <Label Text="Nenhum Pokémon cadastrado." HorizontalOptions="Center" VerticalOptions="Center" TextColor="#757575" />
+            </CollectionView.EmptyView>
+
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <Border StrokeShape="RoundRectangle 12" Stroke="#E0E0E0" BackgroundColor="White" Margin="0,0,0,10" Padding="12">
+                        <Grid ColumnDefinitions="90, *, Auto" ColumnSpacing="12">
+
+                            <Border Grid.Column="0" StrokeShape="RoundRectangle 8" BackgroundColor="#F5F5F5" HeightRequest="85" WidthRequest="85" StrokeThickness="0">
+                                <Image Source="{Binding Imagem}" Aspect="AspectFit" HeightRequest="75" WidthRequest="75" />
+                            </Border>
+
+                            <VerticalStackLayout Grid.Column="1" VerticalOptions="Center" Spacing="4">
+                                <Label Text="{Binding Nome}" FontSize="18" FontAttributes="Bold" TextColor="#212121" />
+                                
+                                <Border StrokeShape="RoundRectangle 4" BackgroundColor="#FFEBEE" Padding="6,2" HorizontalOptions="Start" StrokeThickness="0">
+                                    <Label Text="{Binding Tipo}" FontSize="12" FontAttributes="Bold" TextColor="#C62828" />
+                                </Border>
+                                
+                                <Label Text="{Binding PoderesFormatados, StringFormat='Poderes: {0}'}" 
+                                       FontSize="13" 
+                                       TextColor="#424242" 
+                                       LineBreakMode="WordWrap" />
+                            </VerticalStackLayout>
+
+                            <Button Grid.Column="2" 
+                                    Text="X" 
+                                    BackgroundColor="#FFCDD2" 
+                                    TextColor="#B71C1C" 
+                                    FontAttributes="Bold"
+                                    WidthRequest="38" 
+                                    HeightRequest="38" 
+                                    CornerRadius="19"
+                                    VerticalOptions="Center"
+                                    CommandParameter="{Binding .}"
+                                    Clicked="OnExcluirClicked" />
+                        </Grid>
+                    </Border>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+
+    </Grid>
+</ContentPage>
